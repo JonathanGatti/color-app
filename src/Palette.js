@@ -14,7 +14,7 @@ class Palette extends Component {
   }
 
   changeLevel = (newLevel) =>{
-    this.setState({level: newLevel})
+    this.setState({ level: newLevel })
   }
 
   render(){
