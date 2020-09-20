@@ -36,6 +36,7 @@ class Palette extends Component {
         <Navbar level={level} 
                 changeLevel={this.changeLevel} 
                 handleChange={this.changeFormat}
+                showingAllColors={true}
                 />
         <div className='Palette-colors'>
           {colorBoxes}
