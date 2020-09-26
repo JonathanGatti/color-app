@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import DraggableColorList from './DraggableColorList';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -12,8 +13,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { ChromePicker } from 'react-color';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import DraggableColorBox from './DraggableColorBox';
 import Button from '@material-ui/core/Button'
+import { arrayMove } from 'react-sortable-hoc';
 
 const drawerWidth = 400;
 
@@ -142,6 +143,18 @@ class NewPaletteForm extends Component {
     this.props.history.push('/')
   }
 
+  removeColor = (colorName) => {
+    this.setState({
+      colors: this.state.colors.filter(color => color.name != colorName)
+    })
+  }
+
+  onSortEnd = ({oldIndex, newIndex}) => {
+    this.setState(({colors}) => ({
+      colors: arrayMove(colors, oldIndex, newIndex),
+    }));
+  }
+
   render() {
     const { classes } = this.props;
     const { open } = this.state;
@@ -162,7 +175,7 @@ class NewPaletteForm extends Component {
               onClick={this.handleDrawerOpen}
               className={classNames(classes.menuButton, open && classes.hide)}
             >
-              <MenuIcon />
+            <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
               Persistent drawer
@@ -232,16 +245,19 @@ class NewPaletteForm extends Component {
               </Button>
           </ValidatorForm>
         </Drawer>
-        <main
-          className={classNames(classes.content, {
-            [classes.contentShift]: open,
-          })}
-        >
-          <div className={classes.drawerHeader} />
-          {this.state.colors.map(color => (
-            <DraggableColorBox  color={color.color} name={color.name}/>
-          ))}
-        </main>
+          <main
+            className={classNames(classes.content, {
+              [classes.contentShift]: open,
+            })}
+          >
+            <div className={classes.drawerHeader} />
+            <DraggableColorList 
+                colors={this.state.colors}
+                removeColor={this.removeColor}
+                axis='xy'
+                onSortEnd={this.onSortEnd}
+                />
+          </main>
       </div>
     );
   }
