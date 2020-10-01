@@ -23,12 +23,6 @@ class NewPaletteForm extends Component {
       open: true,
       colors: this.props.palettes[0].colors
     };
-    this.addNewColor = this.addNewColor.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.removeColor = this.removeColor.bind(this);
-    this.clearColors = this.clearColors.bind(this);
-    this.addRandomColor = this.addRandomColor.bind(this);
   }
 
   handleDrawerOpen = () => {
@@ -39,34 +33,33 @@ class NewPaletteForm extends Component {
     this.setState({ open: false });
   };
 
-  addNewColor(newColor) {
+  addNewColor = (newColor) => {
     this.setState({
       colors: [...this.state.colors, newColor],
       newColorName: ""
     });
   }
-  handleChange(evt) {
+  handleChange = (evt) => {
     this.setState({
       [evt.target.name]: evt.target.value
     });
   }
-  clearColors() {
+  clearColors = () =>{
     this.setState({ colors: [] });
   }
-  addRandomColor() {
-    //pick random color from existing palettes
+  addRandomColor =() => {
     const allColors = this.props.palettes.map(p => p.colors).flat();
     var rand = Math.floor(Math.random() * allColors.length);
     const randomColor = allColors[rand];
     this.setState({ colors: [...this.state.colors, randomColor] });
   }
-  handleSubmit(newPalette) {
+  handleSubmit = (newPalette) => {
     newPalette.id = newPalette.paletteName.toLowerCase().replace(/ /g, "-");
     newPalette.colors = this.state.colors;
     this.props.savePalette(newPalette);
     this.props.history.push("/");
   }
-  removeColor(colorName) {
+  removeColor = (colorName) => {
     this.setState({
       colors: this.state.colors.filter(color => color.name !== colorName)
     });
