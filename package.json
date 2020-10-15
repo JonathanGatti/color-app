@@ -2,7 +2,7 @@
   "name": "color-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://jonathangatti.github.io/color-app",
+  "homepage": "https://JonathanGatti.github.io/color-app",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
